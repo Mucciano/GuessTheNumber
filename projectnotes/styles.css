@@ -1,0 +1,33 @@
+body {
+height: 600px;
+width: 600px;
+display: relative;
+
+}
+
+
+.board {
+  margin: 1rem auto;
+}
+
+div {
+  width: 25%;
+  height: 25%;
+  float: right;
+  margin: 2px;
+  border: solid black;
+}
+
+.pi {
+background-color: red;
+
+
+}
+
+
+
+.clearfix::after {
+  display: block;
+  clear: both;
+  content: "";
+}
