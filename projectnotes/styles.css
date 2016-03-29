@@ -11,8 +11,8 @@ display: relative;
 }
 
 div {
-  width: 25%;
-  height: 25%;
+  width: 16%;
+  height: 16%;
   float: right;
   margin: 2px;
   border: solid black;
@@ -20,7 +20,16 @@ div {
 
 .pi {
 background-color: red;
+font-size: 5em;
+text-align: center;
 
+
+}
+
+.bluepi {
+  background-color: blue;
+  font-size: 5em;
+  text-align: center;
 
 }
 
