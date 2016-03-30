@@ -10,6 +10,7 @@ var bthree = function rendBluePi(){ $('.board').append($('<div class="sq bluepi"
 var rflag = function rendPi(){ $('.board').append($('<div class="sq pi" move-val="1" varId=rflag>').text('F'))}
 var bflag = function rendBluePi(){ $('.board').append($('<div class="sq bluepi" move-val="1" varId=bflag>').text('F'))}
 
+var turn = 1
 
 
 var Board = [
@@ -22,32 +23,22 @@ var Board = [
   x, x, x, x, x
  ]
 
- var BoardOrigin = [
-   x, x, x, x, x,
-   x, x, x, x, x,
-   x, x, x, x, x,
-   x, x, x, x, x,
-   x, x, x, x, x,
-   x, x, x, x, x,
-   x, x, x, x, x
-  ]
 
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
 
-  function shuffle(array) {
-var currentIndex = array.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
 
-// While there remain elements to shuffle...
-while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
 
-  // Pick a remaining element...
-  randomIndex = Math.floor(Math.random() * currentIndex);
-  currentIndex -= 1;
-
-  // And swap it with the current element.
-  temporaryValue = array[currentIndex];
-  array[currentIndex] = array[randomIndex];
-  array[randomIndex] = temporaryValue;
-}
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
 
 return array;
 }
@@ -56,7 +47,7 @@ return array;
   function setUpRed(){
     var redpieces = [rflag, rone, rone, rone, rone, rone, rtwo, rtwo, rtwo, rthree];
 
-      d = -1
+      var d = -1
       var redgameset = shuffle(redpieces)
 
       for (var i = 25; i < 35; i++) {
@@ -70,7 +61,7 @@ return array;
   function setUpBlue(){
     var bluepieces = [bflag, bone, bone, bone, bone, bone, btwo, btwo, btwo, bthree];
 
-      d = -1
+      var d = -1
       var bluegameset = shuffle(bluepieces)
 
       for (var i = 0; i < 10; i++) {
@@ -80,6 +71,37 @@ return array;
 
   }
 
+  function showBluFlag(el){
+    if(el === bflag){return el}
+
+  }
+  function showRedFlag(el){
+    if(el === rflag){return el}
+
+  }
+
+
+
+  function checkForWin(){
+  if (cleanArray(Board.map(showBluFlag)).length < 1){
+    alert('Red Wins!')
+  }
+  if (cleanArray(Board.map(showRedFlag)).length < 1){
+    alert('Blue Wins!')
+  }
+
+  }
+
+
+  function cleanArray(actual) {
+    var newArray = new Array();
+    for (var i = 0; i < actual.length; i++) {
+      if (actual[i]) {
+        newArray.push(actual[i]);
+      }
+    }
+    return newArray;
+  }
 
 
 
@@ -89,7 +111,21 @@ return array;
     for (var i = 0; i < Board.length; i++) {
       Board[i]()
       }
+      checkForWin()
 
+      function turnHandler(){
+        turn += 1;
+          if (turn % 2  === 0){
+            $('.board').prepend($('<h1>').text("Red's turn"))
+            setTimeout(function(){$('h1').remove()}, 2000)
+          }
+          else {
+            $('.board').prepend($('<h1>').text("Blue's turn"))
+            $('h1').css('color', 'blue')
+            setTimeout(function(){$('h1').remove()}, 2000)
+          }
+      }
+      turnHandler()
   };
 
   function clearBoard(){
@@ -99,29 +135,6 @@ return array;
 
  };
 
-//
-// function clickMover(){
-//
-//     $('body').on('click', function(e){
-//       var div_list = document.body.children
-//       var div_array = Array.from(div_list)
-//       var c = e.target
-//           if (e.target.className === 'sq'){return alert('Not a piece!')}
-//     clearBoard();
-//     var clickPi = div_array.indexOf(c)
-//
-// if (e.target.className === 'pi'){
-//     Board[clickPi] = x
-//     Board[clickPi+5] = y
-//   } else if (e.target.className ==='bluepi'){
-//   Board[clickPi] = x
-//   Board[clickPi+5] = z
-// }
-//
-//     renderBoard();
-//
-//     }  )
-// }
 
 
 function clickMove(){
@@ -171,7 +184,7 @@ function varIdent(vari){
       }
       clearBoard();
       renderBoard();
-      // captureValidate()
+
 
     // moves left
     }else if (e.altKey === true){
@@ -243,89 +256,10 @@ function varIdent(vari){
           }
           clearBoard();
           renderBoard();
-      // captureValidate()
+
     }
 });
 }
-
-// function clickLeft(){
-//
-//     $('body').on('click', function(e){
-//       var div_list = document.body.children
-//       var div_array = Array.from(div_list)
-//       var c = e.target
-//     if (e.altKey === true){
-//       if (e.target.className === 'sq'){
-//         return alert('Not a piece!')
-//       }
-//       clearBoard();
-//       var clickPi = div_array.indexOf(c)
-//       Board[clickPi] = x
-//       Board[clickPi+1] = y
-//       renderBoard();
-//     }
-//     }  )
-// }
-// function clickRight(){
-//
-//     $('body').on('click', function(e){
-//       var div_list = document.body.children
-//       var div_array = Array.from(div_list)
-//       var c = e.target
-//     if (e.metaKey === true){
-//           if (e.target.className === 'sq'){return alert('Not a piece!')}
-//     clearBoard();
-//     var clickPi = div_array.indexOf(c)
-//
-//     Board[clickPi] = x
-//     Board[clickPi-1]= y
-//     renderBoard();
-//     }
-//     })
-// }
-
-
-
-function showPi(el){
-  if(el === y || el ===z){return el}
-
-}
-function showBluPi(el){
-  if(el === z){return el}
-
-}
-function showRedPi(el){
-  if(el === y){return el}
-
-}
-function removeRed(el){
-  if (el === y ){Board.indexOf(el)}
-
-}
-
-
-
-function cleanArray(actual) {
-  var newArray = new Array();
-  for (var i = 0; i < actual.length; i++) {
-    if (actual[i]) {
-      newArray.push(actual[i]);
-    }
-  }
-  return newArray;
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -341,9 +275,5 @@ setUpRed()
 setUpBlue()
 renderBoard()
 clickMove()
-// clickLeft()
-// clickRight()
-// clickMover()
-
 
 })
