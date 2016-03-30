@@ -10,7 +10,7 @@ var bthree = function rendBluePi(){ $('.board').append($('<div class="sq bluepi"
 var rflag = function rendPi(){ $('.board').append($('<div class="sq pi" move-val="1" varId=rflag>').text('F'))}
 var bflag = function rendBluePi(){ $('.board').append($('<div class="sq bluepi" move-val="1" varId=bflag>').text('F'))}
 
-var turn = 1
+var turn = 0
 
 
 var Board = [
@@ -22,6 +22,21 @@ var Board = [
   x, x, x, x, x,
   x, x, x, x, x
  ]
+
+
+function renderInst(){
+  $('body').append($("<div class='instructions'>").text(
+    "The object of the game is to capture the oppent's flag."+
+    "click on a piece to move it down one square, shift-click to move a piece up one square."+ "Alt-click to move left, Command-click to move right."+
+    "Higher number pieces will capture lower numbers and equal numbers will capture eachother."+
+    "Good Luck!"+
+    "(click here to start the game)"))
+    $('.instructions').click(function(){$('.instructions').remove()})
+
+}
+
+
+
 
 
 function shuffle(array) {
@@ -68,7 +83,6 @@ return array;
           d += 1
         Board[i] = bluegameset[d]
       }
-
   }
 
   function showBluFlag(el){
@@ -84,10 +98,14 @@ return array;
 
   function checkForWin(){
   if (cleanArray(Board.map(showBluFlag)).length < 1){
-    alert('Red Wins!')
+    $('div').remove()
+    $('body').append($('<h2>').text('Red Wins!'))
+
   }
   if (cleanArray(Board.map(showRedFlag)).length < 1){
-    alert('Blue Wins!')
+    $('div').remove()
+    $('body').append($('<h2>').text('Blue Wins!'))
+    $('h2').css('color', 'blue')
   }
 
   }
@@ -116,11 +134,11 @@ return array;
       function turnHandler(){
         turn += 1;
           if (turn % 2  === 0){
-            $('.board').prepend($('<h1>').text("Red's turn"))
+            $('body').append($('<h1>').text("Red's turn"))
             setTimeout(function(){$('h1').remove()}, 2000)
           }
           else {
-            $('.board').prepend($('<h1>').text("Blue's turn"))
+            $('body').append($('<h1>').text("Blue's turn"))
             $('h1').css('color', 'blue')
             setTimeout(function(){$('h1').remove()}, 2000)
           }
@@ -150,6 +168,8 @@ function clickMove(){
       return alert('Not a piece!')
     }
 
+    if (e.target.className === 'sq bluepi' && turn % 2  === 0){ return alert("It's Red's Turn")  }
+    if (e.target.className === 'sq pi' && turn % 2  != 0){ return alert("It's Blue's Turn")  }
 
     var currentSq = $('.sq').eq(clickPi);
 
@@ -225,9 +245,9 @@ function varIdent(vari){
           Board[clickPi-1] = window[varIdent(currentSq)]
 
         }
-      }else if(parseInt(movingTo.attr("move-val")) || 0 > parseInt(currentSq.attr("move-val"))) {
+      }else if(parseInt(movingTo.attr("move-val")) > parseInt(currentSq.attr("move-val"))) {
         Board[clickPi] = x
-      }else if(parseInt(movingTo.attr("move-val")) || 0 == parseInt(currentSq.attr("move-val"))) {
+      }else if(parseInt(movingTo.attr("move-val")) == parseInt(currentSq.attr("move-val"))) {
         Board[clickPi] = x
         Board[clickPi-1] = x
       }
@@ -269,7 +289,6 @@ function varIdent(vari){
 
 
 $(function (){
-
 
 setUpRed()
 setUpBlue()

@@ -47,9 +47,33 @@ margin-left: 2em;
 }
 
 
+h2 {
+position: absolute;
+font-size: 6em;
+font-family: fantasy;
+color: red;
+top: 2em;
+margin-left: 1em;
+}
+
 
 .clearfix::after {
   display: block;
   clear: both;
   content: "";
+}
+
+
+.instructions {
+position: absolute;
+height: 80%;
+width: 80%;
+background-color: black;
+color: white;
+font-family: sans-serif;
+font-size: 2em;
+text-align: center;
+
+
+
 }
