@@ -65,15 +65,25 @@ margin-left: 1em;
 
 
 .instructions {
-position: absolute;
+position: relative;;
 height: 80%;
 width: 80%;
-background-color: black;
+background-color: rgba(0, 0, 0, 0.6);
 color: white;
 font-family: sans-serif;
-font-size: 2em;
+font-size: 1.5em;
 text-align: center;
+margin: 10%;
 
+
+}
+
+p {
+  position: relative;
+  color: white;
+  font-family: sans-serif;
+  font-size: 1em;
+  text-align: center;
 
 
 }

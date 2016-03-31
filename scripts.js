@@ -10,7 +10,7 @@ var bthree = function rendBluePi(){ $('.board').append($('<div class="sq bluepi"
 var rflag = function rendPi(){ $('.board').append($('<div class="sq pi" move-val="1" varId=rflag>').text('F'))}
 var bflag = function rendBluePi(){ $('.board').append($('<div class="sq bluepi" move-val="1" varId=bflag>').text('F'))}
 
-var turn = 0
+var turn = -1
 
 
 var Board = [
@@ -25,12 +25,14 @@ var Board = [
 
 
 function renderInst(){
-  $('body').append($("<div class='instructions'>").text(
-    "The object of the game is to capture the oppent's flag."+
-    "click on a piece to move it down one square, shift-click to move a piece up one square."+ "Alt-click to move left, Command-click to move right."+
-    "Higher number pieces will capture lower numbers and equal numbers will capture eachother."+
-    "Good Luck!"+
-    "(click here to start the game)"))
+  $('div').remove()
+  $('body').append($("<div class='instructions'>"))
+    $('.instructions').append($('<p>').text("The object of the game is to capture the oppent's flag. "))
+    $('.instructions').append($('<p>').text("Click a piece to move it down one square. Shift-click to move a piece up one square. "))
+    $('.instructions').append($('<p>').text("Alt-click to move left, Command-click to move right. "))
+    $('.instructions').append($('<p>').text("Higher numbered pieces will capture lower numbers and equal numbers will capture each other. "))
+    $('.instructions').append($('<p>').text("Good Luck!"))
+    $('.instructions').append($('<p>').text("(click here to start the game)"))
     $('.instructions').click(function(){$('.instructions').remove()})
 
 }
@@ -132,7 +134,11 @@ return array;
       checkForWin()
 
       function turnHandler(){
-        turn += 1;
+
+          turn += 1;
+
+          if (turn === 0 ){return null}
+
           if (turn % 2  === 0){
             $('body').append($('<h1>').text("Red's turn"))
             setTimeout(function(){$('h1').remove()}, 2000)
@@ -143,7 +149,7 @@ return array;
             setTimeout(function(){$('h1').remove()}, 2000)
           }
       }
-      turnHandler()
+      turnHandler();
   };
 
   function clearBoard(){
@@ -156,6 +162,7 @@ return array;
 
 
 function clickMove(){
+
   $('body').on('click', function(e){
     var div_list = document.body.children
     var div_array = Array.from(div_list)
@@ -173,10 +180,10 @@ function clickMove(){
 
     var currentSq = $('.sq').eq(clickPi);
 
-function varIdent(vari){
-  return vari.attr('varId')
+  function varIdent(vari){
+    return vari.attr('varId')
 
-}
+  }
 
 
     // moves back
@@ -294,5 +301,5 @@ setUpRed()
 setUpBlue()
 renderBoard()
 clickMove()
-
+renderInst()
 })
